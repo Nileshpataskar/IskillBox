@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
+/* Keep it minimal and Tailwind v4-compatible. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-open-sans: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Simple fade-up animation for rotating hero text */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-up {
+  animation: fade-up 600ms ease-out both;
 }
+
+/* Infinite horizontal marquee animations */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.marquee {
+  animation: marquee-left 30s linear infinite;
+  will-change: transform;
+}
+
+.marquee-reverse {
+  animation: marquee-right 30s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .marquee-reverse {
+    animation: none !important;
+  }
+}
+
+/* Removed custom Tailwind at-rules that may break if the PostCSS plugin
+   hasn't picked them up yet. We can reintroduce them later if needed. */
