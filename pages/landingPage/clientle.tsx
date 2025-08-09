@@ -43,7 +43,7 @@ function MarqueeRow({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <motion.div
-        className="flex w-[200%] gap-10"
+        className="flex w-[200%] gap-10 will-change-transform"
         animate={{ x: animate }}
         transition={{ duration: speed, ease: 'linear', repeat: Infinity }}
      >
@@ -53,7 +53,7 @@ function MarqueeRow({
             className="flex h-16 min-w-[180px] items-center justify-center rounded-md bg-white/0 p-0 md:h-20 md:min-w-[220px] ring-1 ring-black/10"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo.src} alt={logo.alt} className="h-full w-72 object-contain" />
+            <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" className="h-full w-full object-contain" />
           </div>
         ))}
       </motion.div>

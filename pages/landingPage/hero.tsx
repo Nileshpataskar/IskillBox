@@ -1,15 +1,36 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 const Hero = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!el) return
+        if (entry.isIntersecting) {
+          el.play().catch(() => {})
+        } else {
+          el.pause()
+        }
+      },
+      { threshold: 0.2 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       <video
         className="absolute inset-0 z-0 h-full w-full object-cover"
+        ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         aria-hidden="true"
       >
         <source src="/iskillbox-hero.mp4" type="video/mp4" />
@@ -26,7 +47,7 @@ const Hero = () => {
           <div>
             <a
               href="#solutions"
-              className="inline-block rounded-2xl border border-white/40 bg-white/10 px-6 py-3 text-lg font-medium text-white backdrop-blur hover:bg-white/20 font-sans"
+              className="inline-block rounded-2xl border border-white/40 bg-white/10 px-6 py-3 text-lg font-medium text-white hover:bg-white/20 font-sans"
             >
               See the Smarter Way
             </a>

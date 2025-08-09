@@ -11,7 +11,7 @@ import { SuccessStories } from '@/pages/landingPage/successStories'
 
 const page = () => {
   return (
-    <div className='text-white w-full overflow-x-hidden px-32'>
+    <div className='text-white w-full overflow-x-hidden md:px-32'>
       <Header />
       <Hero />
       <Page2 />

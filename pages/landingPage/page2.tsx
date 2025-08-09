@@ -37,6 +37,8 @@ const Page2 = () => {
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
+                                loading="lazy"
+                                decoding="async"
                                 src={src}
                                 alt={`placeholder ${idx + 1}`}
                                 className="aspect-[4/3] w-full object-cover"
