@@ -89,3 +89,8 @@ const data = [
         content: <DummyContent />,
     },
 ];
+
+// Provide a default export so Next.js `pages/` route has a valid page component
+export default function SuccessStoriesPage() {
+  return <SuccessStories />
+}
