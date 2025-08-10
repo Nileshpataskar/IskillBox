@@ -3,7 +3,7 @@ import React from 'react'
 import { motion } from 'motion/react'
 
 const logos = Array.from({ length: 15 }, (_, i) => ({
-  src: `/ClientLogo/${i + 1}.png`,
+  src: `/ClientLogo/${i + 1}.webp`,
   alt: `Client logo ${i + 1}`,
 }))
 

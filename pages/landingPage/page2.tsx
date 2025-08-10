@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Image from 'next/image';
 
 const dummyImages = [
-    '/landing/p2-1.jpg',
-    '/landing/p2-3.jpg',
-    '/landing/p2-4.jpg',
-    '/landing/p2-2.jpg',
-]
+    '/landing/p2-1.webp',
+    '/landing/p2-3.webp',
+    '/landing/p2-4.webp',
+    '/landing/p2-2.webp',
+];
 
 const Page2 = () => {
     return (
@@ -33,23 +34,26 @@ const Page2 = () => {
                     {dummyImages.map((src, idx) => (
                         <div
                             key={idx}
-                            className={`overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/10 ${idx % 2 === 1 ? 'md:mt-6' : 'md:mb-6'}`}
+                            style={{ contentVisibility: 'auto' }}
+                            className={`overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/10 ${idx % 2 === 1 ? 'md:mt-6' : 'md:mb-6'
+                                }`}
                         >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                loading="lazy"
-                                decoding="async"
+                            <Image
                                 src={src}
                                 alt={`placeholder ${idx + 1}`}
+                                width={600}
+                                height={450}
                                 className="aspect-[4/3] w-full object-cover"
+                                placeholder="blur"
+                                blurDataURL="data:image/webp;base64,UklGRiIAAABXRUJQVlA4ICQAAAAwAQCdASoBAAEALwA0JaQAA3AA/vuUAAA="
+                                loading="lazy"
                             />
                         </div>
                     ))}
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Page2
-
+export default Page2;

@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
+import { LiteCarousel, LiteCard, LiteCardData } from "@/components/ui/cards-carousel-lite";
 
 export function SuccessStories() {
-    const cards = data.map((card, index) => (
-        <Card key={card.src} card={card} index={index} />
+    const cards = data.map((card) => (
+        <LiteCard key={card.src} card={card} />
     ));
 
     return (
@@ -13,7 +13,7 @@ export function SuccessStories() {
             <h2 className=" text-center text-2xl font-normal font-sans text-black md:text-3xl">
                 Success Stories
             </h2>
-            <Carousel items={cards} />
+            <LiteCarousel items={cards} />
         </div>
     );
 }
@@ -50,7 +50,7 @@ const DummyContent = () => {
     );
 };
 
-const data = [
+const data: LiteCardData[] = [
     {
         category: "Artificial Intelligence",
         title: "You can do more with AI.",
