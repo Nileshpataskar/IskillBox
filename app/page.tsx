@@ -8,6 +8,7 @@ import Feature from '@/pages/landingPage/Feature'
 import Page2 from '@/pages/landingPage/page2'
 import Clientle from '@/pages/landingPage/clientle'
 import { SuccessStories } from '@/pages/landingPage/successStories'
+import Services from '@/pages/landingPage/services'
 
 const page = () => {
   return (
@@ -16,6 +17,7 @@ const page = () => {
       <Hero />
       <Page2 />
       <Clientle />
+      <Services />
       <SuccessStories />
       <Footer />
     </div>

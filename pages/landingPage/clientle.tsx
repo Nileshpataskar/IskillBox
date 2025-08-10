@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { motion } from 'motion/react'
+import Image from 'next/image'
 
 const logos = Array.from({ length: 15 }, (_, i) => ({
   src: `/ClientLogo/${i + 1}.webp`,
@@ -9,7 +10,7 @@ const logos = Array.from({ length: 15 }, (_, i) => ({
 
 const Clientle = () => {
   return (
-    <section className="w-full bg-[#f4f7fa] py-16">
+    <section className="w-full py-16">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-20 text-center text-2xl font-normal font-sans text-black md:text-3xl">
           Discovered by Top Brands
@@ -53,7 +54,7 @@ function MarqueeRow({
             className="flex h-16 min-w-[180px] items-center justify-center rounded-md bg-white/0 p-0 md:h-20 md:min-w-[220px] ring-1 ring-black/10"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" className="h-full w-full object-contain" />
+            <Image src={logo.src} alt={logo.alt} loading="lazy" decoding="async" width={100} height={100} className="h-full w-full object-contain" />
           </div>
         ))}
       </motion.div>
