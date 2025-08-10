@@ -10,7 +10,7 @@ const dummyImages = [
 
 const Page2 = () => {
     return (
-        <section className="w-full bg-[#f4f7fa] py-16">
+        <section className="w-full bg-blue-50 py-16">
             <div className="mx-auto flex max-w-7xl flex-col items-start gap-10 px-6 md:flex-row md:items-center">
                 {/* Left copy */}
                 <div className="w-full md:w-1/2">

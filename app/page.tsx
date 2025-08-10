@@ -9,6 +9,9 @@ import Page2 from '@/pages/landingPage/page2'
 import Clientle from '@/pages/landingPage/clientle'
 import { SuccessStories } from '@/pages/landingPage/successStories'
 import Services from '@/pages/landingPage/services'
+import NotLast from '@/pages/landingPage/NotLast'
+import FAQAccordion from '@/pages/landingPage/faq'
+import TestimonialCarousel from '@/pages/landingPage/Testimonial'
 
 const page = () => {
   return (
@@ -19,6 +22,9 @@ const page = () => {
       <Clientle />
       <Services />
       <SuccessStories />
+      <TestimonialCarousel/>
+      <FAQAccordion/>
+      <NotLast />
       <Footer />
     </div>
   )
