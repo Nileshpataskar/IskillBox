@@ -12,19 +12,21 @@ import Services from '@/pages/landingPage/services'
 import NotLast from '@/pages/landingPage/NotLast'
 import FAQAccordion from '@/pages/landingPage/faq'
 import TestimonialCarousel from '@/pages/landingPage/Testimonial'
+import Discover from '@/pages/landingPage/discover'
 
 const page = () => {
   return (
     <div className='text-white w-full overflow-x-hidden md:px-32'>
       <Header />
       <Hero />
-      <Page2 />
+      <Discover />
+      {/* <Page2 /> */}
       <Clientle />
       <Services />
       <SuccessStories />
-      <TestimonialCarousel/>
-      <FAQAccordion/>
+      <TestimonialCarousel />
       <NotLast />
+      <FAQAccordion />
       <Footer />
     </div>
   )

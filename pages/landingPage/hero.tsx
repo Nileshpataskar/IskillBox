@@ -22,7 +22,7 @@ const Hero = () => {
   }, [])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-[120vh] w-full overflow-hidden bg-black">
       <video
         className="absolute inset-0 z-0 h-full w-full object-cover"
         ref={videoRef}
