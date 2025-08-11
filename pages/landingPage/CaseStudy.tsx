@@ -48,6 +48,11 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
     const topRef = useRef<HTMLDivElement | null>(null);
     const rightRef = useRef<HTMLDivElement | null>(null);
 
+    // Safety check to prevent mapping over undefined data
+    if (!topCards || !bottomWorks) {
+        return null; // or return a loading state
+    }
+
     const scrollByWidth = useCallback((container: HTMLDivElement | null, direction = 1) => {
         if (!container) return;
         const width = container.clientWidth;
@@ -56,7 +61,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
 
     // Memoize the card components to prevent unnecessary re-renders
     const topCardElements = useMemo(() => 
-        topCards.map((c) => (
+        (topCards || []).map((c) => (
             <article
                 key={c.id}
                 className="group relative w-72 md:w-80 lg:w-96 flex-shrink-0 rounded-2xl overflow-hidden bg-white  hover:shadow-2xl transition-all duration-500 ease-out"
@@ -102,7 +107,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
         )), [topCards]);
 
     const bottomWorkElements = useMemo(() => 
-        bottomWorks.map((w) => (
+        (bottomWorks || []).map((w) => (
             <div
                 key={w.id}
                 className="group w-72 md:w-[500px] flex-shrink-0 rounded-2xl overflow-hidden  hover:shadow-2xl bg-white transition-all duration-500 ease-out"
