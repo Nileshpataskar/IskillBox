@@ -130,7 +130,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
         )), [bottomWorks]);
 
     return (
-        <div className={`w-full bg-gradient-to-br from-blue-50 to-blue-100 ${className}`}>
+        <div className={`w-full  bg-blue-50  ${className}`}>
             {/* Top carousel of interactive cards */}
             <div className="max-w-full mx-auto px-4 md:px-6 lg:px-20 mb-8 md:mb-12">
                 <div className="relative">

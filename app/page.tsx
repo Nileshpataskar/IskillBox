@@ -32,7 +32,7 @@ const page = () => {
         titleProps={{
           title: "Powered by Purpose",
           description: "Every solution is built with intention, backed by intelligence, and aligned to your business goals.",
-          link: { text: "Learn more", href: "#" },
+          // link: { text: "Learn more", href: "#" },
         }} />
       <TestimonialCarousel />
       <NotLast />
