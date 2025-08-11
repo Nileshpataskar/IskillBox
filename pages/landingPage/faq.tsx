@@ -57,7 +57,7 @@ const FAQAccordion = () => {
   };
 
   return (
-    <div className="bg-blue-50 min-h-screen py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-12 lg:px-20">
+    <div className="bg-blue-50 min-h-screen py-2 sm:py-2 md:py-4 px-4 sm:px-6 md:px-12 lg:px-20">
       <TitleH1
         title='iSkillBox FAQs'
       />

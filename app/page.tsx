@@ -19,7 +19,7 @@ import { BottomWorks, TopCards } from '@/lib/data'
 const page = () => {
   return (
     <div className='text-white w-full overflow-x-hidden md:px-32'>
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <Discover />
       {/* <Page2 /> */}
