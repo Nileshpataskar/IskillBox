@@ -13,6 +13,8 @@ import NotLast from '@/pages/landingPage/NotLast'
 import FAQAccordion from '@/pages/landingPage/faq'
 import TestimonialCarousel from '@/pages/landingPage/Testimonial'
 import Discover from '@/pages/landingPage/discover'
+import CaseStudy from '@/pages/landingPage/CaseStudy'
+import { BottomWorks, TopCards } from '@/lib/data'
 
 const page = () => {
   return (
@@ -23,7 +25,15 @@ const page = () => {
       {/* <Page2 /> */}
       <Clientle />
       <Services />
-      <SuccessStories />
+      {/* <SuccessStories /> */}
+      <CaseStudy
+        topCards={TopCards}
+        bottomWorks={BottomWorks  }
+        titleProps={{
+          title: "Powered by Purpose",
+          description: "Every solution is built with intention, backed by intelligence, and aligned to your business goals.",
+          link: { text: "Learn more", href: "#" },
+        }} />
       <TestimonialCarousel />
       <NotLast />
       <FAQAccordion />

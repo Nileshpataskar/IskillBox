@@ -17,7 +17,7 @@ const Clientle = () => {
         </h2>
 
         {/* Framer Motion marquee rows */}
-        <MarqueeRow items={logos} speed={25} />
+        <MarqueeRow items={logos} speed={10} />
       </div>
     </section>
   )

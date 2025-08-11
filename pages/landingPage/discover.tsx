@@ -9,7 +9,7 @@ const Discover = () => {
         '/landing/p2-2.webp',
     ];
     return (
-        <div className='h-screen bg-blue-50 flex  flex-col items-start gap-10 px-6 md:flex-row md:items-center'>
+        <div className='h-screen bg-blue-50 flex  flex-col items-start gap-10 px-20 md:flex-row md:items-center'>
 
             <div className="w-full md:w-1/2">
                 <div className="flex gap-4">

@@ -1,3 +1,4 @@
+import TitleH1 from '@/components/ui/TitleH1';
 import React, { useState } from 'react';
 
 const faqs = [
@@ -51,30 +52,32 @@ const faqs = [
 const FAQAccordion = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
-  const toggleFAQ = (index:any) => {
+  const toggleFAQ = (index: any) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="bg-blue-50 min-h-screen py-12 px-4">
+    <div className="bg-blue-50 min-h-screen py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-12 lg:px-20">
+      <TitleH1
+        title='iSkillBox FAQs'
+      />
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-xl font-semibold text-purple-800 mb-6">iSkillBox FAQs</h2>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded shadow">
+            <div key={index} className="bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
               <button
                 onClick={() => toggleFAQ(index)}
-                className={`w-full text-left px-6 py-4 flex justify-between items-center ${
-                  openIndex === index ? 'bg-purple-50' : ''
+                className={`w-full text-left px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center transition-colors duration-200 ${
+                  openIndex === index ? 'bg-purple-50 border-l-4 border-purple-500' : 'hover:bg-gray-50'
                 }`}
               >
-                <span className="font-medium text-gray-800">{faq.question}</span>
-                <span className="text-gray-500 text-2xl leading-none">
+                <span className="font-medium text-gray-800 text-sm sm:text-base pr-4">{faq.question}</span>
+                <span className="text-gray-500 text-xl sm:text-2xl leading-none cursor-pointer flex-shrink-0">
                   {openIndex === index ? '−' : '+'}
                 </span>
               </button>
               {openIndex === index && (
-                <div className="px-6 pb-4 text-gray-600 text-sm">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">
                   {faq.answer}
                 </div>
               )}
