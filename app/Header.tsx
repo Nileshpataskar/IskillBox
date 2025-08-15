@@ -54,7 +54,7 @@ const Header = () => {
     { href: "/about", label: "About Us" },
     { href: "/solutions", label: "Solutions" },
     { href: "/success-stories", label: "Success Stories" },
-    { href: "/contact-us", label: "Contact Us" }
+    { href: "/contactus", label: "Contact Us" }
   ];
 
   return (
@@ -75,7 +75,7 @@ const Header = () => {
           <a href="/about" className="text-sm text-white hover:text-white">About Us</a>
           <a href="/solutions" className="text-sm text-white hover:text-white">Solutions</a>
           <a href="/success-stories" className="text-sm text-white hover:text-white">Success Stories</a>
-          <a href="/contact-us" className="text-sm text-white hover:text-white">Contact Us</a>
+          <a href="/contactus" className="text-sm text-white hover:text-white">Contact Us</a>
         </nav>
 
         {/* Mobile Menu Button */}

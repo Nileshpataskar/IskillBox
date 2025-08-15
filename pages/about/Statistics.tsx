@@ -1,37 +1,43 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'motion/react'
 
 const Statistics = () => {
-  const stats = [
-    { number: "500+", label: "Organizations Served" },
-    { number: "50K+", label: "Learners Trained" },
-    { number: "95%", label: "Client Satisfaction" },
-    { number: "25+", label: "Industry Sectors" }
-  ]
+    const stats = [
+        {
+            value: '12+ Years',
+            description: 'of pioneering learning innovation'
+        },
+        {
+            value: '16,000+',
+            description: 'professionals empowered each year'
+        },
+        {
+            value: '10,000+',
+            description: 'subject-matter specialists in our expert ecosystem'
+        },
+        {
+            value: '500+',
+            description: 'industry-leading clients across sectors'
+        },
+        {
+            value: '2,000+',
+            description: 'high-impact live learning interventions annually'
+        }
+    ]
 
-  return (
-    <section className="py-16 bg-blue-600">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center text-white"
-            >
-              <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-              <div className="text-lg text-blue-100">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+    return (
+        <section className="bg-blue-50 text-white py-12 h-[90vh] flex items-center">
+            <div className="max-w-6xl mx-auto px-4  flex flex-wrap  gap-6 text-center justify-center">
+                {stats.map((stat, index) => (
+                    <div key={index} className="bg-[#151E35] p-6  shadow w-80 h-40 justify-center items-center flex flex-col rounded-xl">
+                        <h3 className="text-3xl font-bold mb-2">{stat.value}</h3>
+                        <p className="text-md text-gray-300">{stat.description}</p>
+                    </div>
+                ))}
+            </div>
+        </section>
+    )
 }
 
 export default Statistics

@@ -62,10 +62,10 @@ const TitleH1: React.FC<TitleH1Props> = ({
                 </div>
 
                 {/* Text content */}
-                <div>
+                <div className="flex flex-col">
                     <h2
                         id="powered-by-purpose-heading"
-                        className="text-2xl md:text-4xl font-bold text-[#6D3A95] leading-tight"
+                        className="text-2xl md:text-3xl font-bold text-[#6D3A95] leading-tight"
                     >
                         {title}
                     </h2>
