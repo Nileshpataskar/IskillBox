@@ -10,6 +10,7 @@ import History from '@/pages/about/History'
 import Potential from '@/pages/about/Potential'
 import ProductsServices from '@/pages/about/ProductServices'
 import TalkToOurTeam from '@/pages/about/TalkToOurTeam'
+import NotLast from '@/pages/landingPage/NotLast'
 
 const AboutPage = () => {
     return (
@@ -21,7 +22,8 @@ const AboutPage = () => {
             <History />
             <Potential />
             <ProductsServices />
-            <TalkToOurTeam />
+            <NotLast />
+            {/* <TalkToOurTeam /> */}
             <Footer />
         </div>
     )
