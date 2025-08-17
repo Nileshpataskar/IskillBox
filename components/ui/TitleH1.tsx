@@ -16,6 +16,14 @@ export interface TitleH1Props {
     lineHeight?: number;
     /** Extra wrapper classes if you want to tweak layout */
     className?: string;
+    /** Custom styling for the title */
+    titleClassName?: string;
+    /** Custom styling for the description */
+    descriptionClassName?: string;
+    /** Custom styling for the link */
+    linkClassName?: string;
+    /** Custom styling for the accent line */
+    accentLineClassName?: string;
 }
 
 /**
@@ -28,6 +36,10 @@ export interface TitleH1Props {
  *  - description: optional paragraph under the title
  *  - link: optional object { text, href, newTab } — renders bold + underlined link at the same size as the description
  *  - lineHeight: optional number (px) to control the vertical accent line height. Defaults to 80.
+ *  - titleClassName: custom classes for the title (e.g., text size, color, font weight)
+ *  - descriptionClassName: custom classes for the description text
+ *  - linkClassName: custom classes for the link styling
+ *  - accentLineClassName: custom classes for the vertical accent line
  *
  * Behaviour changes requested:
  *  - When `description` is not provided the title/link block will be vertically centered relative to the accent line.
@@ -40,6 +52,10 @@ const TitleH1: React.FC<TitleH1Props> = ({
     link,
     lineHeight,
     className = "",
+    titleClassName = "",
+    descriptionClassName = "",
+    linkClassName = "",
+    accentLineClassName = "",
 }) => {
     const hasDescription = Boolean(description);
     const accentHeight = typeof lineHeight === "number" ? lineHeight : 80; // default 80px (h-20)
@@ -55,7 +71,7 @@ const TitleH1: React.FC<TitleH1Props> = ({
                 {/* Vertical accent line */}
                 <div className={hasDescription ? "mt-2" : ""}>
                     <div
-                        className="w-1 md:w-1 bg-lime-400 rounded"
+                        className={`w-1 md:w-1 bg-lime-400 rounded ${accentLineClassName}`}
                         style={{ height: accentHeight }}
                         aria-hidden
                     />
@@ -65,20 +81,20 @@ const TitleH1: React.FC<TitleH1Props> = ({
                 <div className="flex flex-col">
                     <h2
                         id="powered-by-purpose-heading"
-                        className="text-2xl md:text-3xl font-bold text-[#6D3A95] leading-tight"
+                        className={`text-2xl md:text-3xl font-bold text-[#6D3A95] leading-tight ${titleClassName}`}
                     >
                         {title}
                     </h2>
 
                     {description && (
-                        <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl">
+                        <p className={`mt-3 text-base md:text-lg text-gray-600 max-w-2xl ${descriptionClassName}`}>
                             {description}{' '}
                             {link && (
                                 <a
                                     href={link.href}
                                     target={link.newTab ? '_blank' : undefined}
                                     rel={link.newTab ? 'noopener noreferrer' : undefined}
-                                    className="font-semibold underline underline-offset-2"
+                                    className={`font-semibold underline underline-offset-2 ${linkClassName}`}
                                 >
                                     {link.text}
                                 </a>
@@ -88,12 +104,12 @@ const TitleH1: React.FC<TitleH1Props> = ({
 
                     {/* If no description but link is provided, render link on its own (same size as description) */}
                     {!description && link && (
-                        <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl">
+                        <p className={`mt-3 text-base md:text-lg text-gray-600 max-w-2xl ${descriptionClassName}`}>
                             <a
                                 href={link.href}
                                 target={link.newTab ? '_blank' : undefined}
                                 rel={link.newTab ? 'noopener noreferrer' : undefined}
-                                className="font-semibold underline underline-offset-2"
+                                className={`font-semibold underline underline-offset-2 ${linkClassName}`}
                             >
                                 {link.text}
                             </a>

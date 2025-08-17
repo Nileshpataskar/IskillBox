@@ -110,9 +110,9 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
         (bottomWorks || []).map((w) => (
             <div
                 key={w.id}
-                className="group w-72 md:w-[500px] flex-shrink-0 rounded-2xl overflow-hidden  hover:shadow-2xl bg-white transition-all duration-500 ease-out"
+                className="group w-72 md:w-[450px] flex-shrink-0 rounded-2xl overflow-hidden  hover:shadow-2xl bg-white transition-all duration-500 ease-out"
             >
-                <div className="w-full h-48 md:h-72 relative overflow-hidden">
+                <div className="w-full h-48 md:h-54 relative overflow-hidden">
                     <img
                         src={w.image}
                         alt={w.alt ?? w.title ?? "work"}

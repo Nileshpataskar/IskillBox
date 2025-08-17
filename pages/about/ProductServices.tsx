@@ -72,7 +72,8 @@ const ProductsServices = () => {
                             <TitleH1
                                 title={service.title}
                                 description={service.description}
-                                 link={{ text: 'Read more', href: '/about', newTab: false }}
+                                titleClassName="text-black font-bold"
+                                //  link={{ text: 'Read more', href: '/about', newTab: false }}
                             />
                         </div>
                     ))}
