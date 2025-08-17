@@ -6,6 +6,7 @@ import React from 'react'
 import Footer from '../Footer'
 import TalkToOurTeam from '@/pages/about/TalkToOurTeam'
 import ContactForm from '@/pages/contactUs/contactForm'
+import MapPage from '@/pages/contactUs/mapPage'
 
 const ContactUsPage = () => {
     return (
@@ -14,6 +15,7 @@ const ContactUsPage = () => {
             <TalkAndSend />
             <ContactForm />
             <TalkToOurTeam />
+            <MapPage/>
             <Footer />
         </div>
     )
