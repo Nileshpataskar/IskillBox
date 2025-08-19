@@ -44,9 +44,11 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="bg-[#EAF4FF] py-12">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow">
-        <form onSubmit={handleSubmit} className="grid gap-6">
+    <section className="flex justify-center py-12 px-2">
+      <div className="w-full max-w-xl bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 md:p-12">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-center">Contact Us</h2>
+        <p className="text-gray-600 mb-8 text-center text-sm">We’d love to hear from you. Fill out the form and we’ll get back to you soon.</p>
+        <form onSubmit={handleSubmit} className="grid gap-7" aria-label="Contact form">
           <div className="grid md:grid-cols-2 gap-6">
             <input
               name="name"
@@ -54,8 +56,9 @@ const ContactForm = () => {
               onChange={handleChange}
               type="text"
               placeholder="Full Name"
-              className=" border  rounded-xl px-4 py-2 w-full"
+              className="border border-gray-200 bg-white/70 rounded-xl px-4 py-3 w-full focus:border-lime-400 focus:ring-2 focus:ring-lime-100 focus:outline-none transition shadow-sm placeholder-gray-400"
               required
+              aria-label="Full Name"
             />
             <input
               name="email"
@@ -63,8 +66,9 @@ const ContactForm = () => {
               onChange={handleChange}
               type="email"
               placeholder="Email"
-              className=" border  rounded-xl px-4 py-2 w-full"
+              className="border border-gray-200 bg-white/70 rounded-xl px-4 py-3 w-full focus:border-lime-400 focus:ring-2 focus:ring-lime-100 focus:outline-none transition shadow-sm placeholder-gray-400"
               required
+              aria-label="Email"
             />
             <input
               name="phone"
@@ -72,7 +76,8 @@ const ContactForm = () => {
               onChange={handleChange}
               type="tel"
               placeholder="Phone No."
-              className=" border  rounded-xl px-4 py-2 w-full"
+              className="border border-gray-200 bg-white/70 rounded-xl px-4 py-3 w-full focus:border-lime-400 focus:ring-2 focus:ring-lime-100 focus:outline-none transition shadow-sm placeholder-gray-400"
+              aria-label="Phone Number"
             />
             <input
               name="company"
@@ -80,26 +85,26 @@ const ContactForm = () => {
               onChange={handleChange}
               type="text"
               placeholder="Company Name"
-              className=" border  rounded-xl px-4 py-2 w-full"
+              className="border border-gray-200 bg-white/70 rounded-xl px-4 py-3 w-full focus:border-lime-400 focus:ring-2 focus:ring-lime-100 focus:outline-none transition shadow-sm placeholder-gray-400"
+              aria-label="Company Name"
             />
           </div>
-
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder="Write Message"
             rows={4}
-            className=" border  rounded-xl px-4 py-2 w-full"
+            className="border border-gray-200 bg-white/70 rounded-xl px-4 py-3 w-full focus:border-lime-400 focus:ring-2 focus:ring-lime-100 focus:outline-none transition shadow-sm placeholder-gray-400"
             required
+            aria-label="Message"
           />
-
-          <div className="text-center">
+          <div className="text-center mt-2">
             <button
               type="submit"
-              className="border-2 border-black px-6 py-2 rounded-xl hover:bg-black hover:text-white transition"
+              className="bg-[#161c2d] hover:bg-[#161c2d]/10 text-white font-semibold px-10 py-3 rounded-xl shadow-lg transition border-0 focus:outline-none focus:ring-2 focus:ring-lime-300 text-lg"
             >
-              Contact Us
+              Send Message
             </button>
           </div>
         </form>

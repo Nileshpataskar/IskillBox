@@ -127,7 +127,7 @@ const Header = () => {
                   {/* Dropdown Menu */}
                   {activeDropdown === item.dropdownKey && (
                     <div 
-                      className="absolute top-full left-0 mt-3 min-w-64 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-3xl shadow-2xl shadow-black/40 overflow-hidden z-50 flex flex-col gap-0.5 py-3 animate-fadeIn"
+                      className="absolute top-full left-0 mt-3 min-w-64 bg-black/80 backdrop-blur-2xl border border-white/30 rounded-3xl shadow-2xl shadow-black/40 overflow-hidden z-50 flex flex-col gap-0.5 py-3 animate-fadeIn"
                       style={{ boxShadow: '0 12px 40px 0 rgba(80,80,120,0.18), 0 1.5px 8px 0 rgba(80,80,120,0.10) inset', marginTop: 18 }}
                       onMouseEnter={() => {
                         if (dropdownTimeout) clearTimeout(dropdownTimeout);
