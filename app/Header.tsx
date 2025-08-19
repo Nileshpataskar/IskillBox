@@ -6,11 +6,10 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Debug mount marker
-    // eslint-disable-next-line no-console
-    console.log('[Header] mount');
 
     const getScrollY = () => {
       const se = document.scrollingElement as HTMLElement | null;
@@ -20,8 +19,6 @@ const Header = () => {
       const d = document.body ? document.body.scrollTop : 0;
       const e = se ? se.scrollTop : 0;
       const y = a || b || c || d || e || 0;
-      // eslint-disable-next-line no-console
-      console.log('[Header:getScrollY]', { a, b, c, d, e, y });
       return y;
     };
 
@@ -47,6 +44,7 @@ const Header = () => {
       window.removeEventListener('wheel', onScroll);
       window.removeEventListener('touchmove', onScroll);
       window.removeEventListener('resize', onScroll);
+      if (dropdownTimeout) clearTimeout(dropdownTimeout);
     };
   }, []);
 
@@ -83,13 +81,13 @@ const Header = () => {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${
         isScrolled 
-          ? 'rounded-md m-4 bg-black/40 backdrop-blur-2xl border-b border-white/20 shadow-2xl shadow-black/20' 
+          ? 'rounded-xl m-4 bg-black/30 backdrop-blur-2xl border border-white/20 shadow-2xl shadow-black/30' 
           : 'bg-transparent'
       }`}
     >
       {/* Gradient overlay for better text readability */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${
-        isScrolled ? 'bg-gradient-to-r from-purple-900/20 via-blue-900/20 to-purple-900/20' : 'opacity-0'
+        isScrolled ? 'bg-gradient-to-r from-black/40 via-purple-900/30 to-black/40' : 'opacity-0'
       }`} />
       
       <div className="relative flex h-20 w-full max-w-full items-center justify-between px-4 md:px-40">
@@ -99,15 +97,22 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden gap-8 md:flex z-10">
+        <nav className="hidden gap-8 md:flex z-10  md:items-center">
           {navItems.map((item, index) => (
             <div key={index} className="relative group">
               {item.hasDropdown ? (
                 <button
                   onClick={() => handleDropdownToggle(item.dropdownKey!)}
-                  onMouseEnter={() => setActiveDropdown(item.dropdownKey!)}
-                  onMouseLeave={() => setActiveDropdown(null)}
+                  onMouseEnter={() => {
+                    if (dropdownTimeout) clearTimeout(dropdownTimeout);
+                    setActiveDropdown(item.dropdownKey!);
+                  }}
+                  onMouseLeave={() => {
+                    const timeout = setTimeout(() => setActiveDropdown(null), 250); // increased delay
+                    setDropdownTimeout(timeout);
+                  }}
                   className="text-sm text-white hover:text-lime-300 transition-all duration-300 flex items-center gap-2 font-medium tracking-wide"
+                  style={{ position: 'relative', zIndex: 51 }}
                 >
                   {item.label}
                   <svg 
@@ -115,41 +120,60 @@ const Header = () => {
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.25))', marginLeft: 2 }}
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                  
                   {/* Dropdown Menu */}
                   {activeDropdown === item.dropdownKey && (
                     <div 
-                      className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 min-w-56 bg-white/95 backdrop-blur-2xl border border-white/30 rounded-2xl shadow-2xl shadow-black/30 overflow-hidden"
-                      onMouseEnter={() => setActiveDropdown(item.dropdownKey!)}
-                      onMouseLeave={() => setActiveDropdown(null)}
+                      className="absolute top-full left-0 mt-3 min-w-64 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-3xl shadow-2xl shadow-black/40 overflow-hidden z-50 flex flex-col gap-0.5 py-3 animate-fadeIn"
+                      style={{ boxShadow: '0 12px 40px 0 rgba(80,80,120,0.18), 0 1.5px 8px 0 rgba(80,80,120,0.10) inset', marginTop: 18 }}
+                      onMouseEnter={() => {
+                        if (dropdownTimeout) clearTimeout(dropdownTimeout);
+                        setActiveDropdown(item.dropdownKey!);
+                      }}
+                      onMouseLeave={() => {
+                        const timeout = setTimeout(() => setActiveDropdown(null), 250);
+                        setDropdownTimeout(timeout);
+                      }}
                     >
                       {/* Dropdown arrow */}
-                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white/95 rotate-45 border-l border-t border-white/30" />
-                      
-                      <div className="py-3">
+                      <div className="absolute -top-2 left-6 w-5 h-5 bg-white/10 backdrop-blur-2xl border-l border-t border-white/30 rounded-tl-xl" style={{ boxShadow: '0 2px 8px 0 rgba(80,80,120,0.10)' }} />
+                      <div className="flex flex-col py-1">
                         {item.dropdownKey === "solutions" ? (
-                          solutionsItems.map((title, idx) => (
-                            <a
-                              key={idx}
-                              href={`/solutions#${title.toLowerCase().replace(/\s+/g, '-')}`}
-                              className="block px-6 py-3 text-gray-800 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 font-medium border-l-2 border-transparent hover:border-l-purple-400"
-                            >
-                              {title}
-                            </a>
-                          ))
+                          solutionsItems.map((title, idx) => {
+                            const isActive = typeof window !== 'undefined' && window.location.hash === `#${title.toLowerCase().replace(/\s+/g, '-')}`;
+                            return (
+                              <a
+                                key={idx}
+                                href={`/solutions#${title.toLowerCase().replace(/\s+/g, '-')}`}
+                                className={`block px-7 py-3 text-white/90 transition-all duration-200 font-medium border-l-2 border-transparent rounded-xl
+                                  hover:bg-gradient-to-r hover:from-lime-400/10 hover:to-purple-400/10 hover:text-lime-300 hover:border-l-lime-400 hover:scale-[1.03]
+                                  ${isActive ? 'bg-lime-400/10 text-lime-300 border-l-lime-400' : ''}`}
+                                style={{ transition: 'transform 0.18s cubic-bezier(.4,2,.6,1)' }}
+                              >
+                                {title}
+                              </a>
+                            );
+                          })
                         ) : item.dropdownKey === "stories" ? (
-                          storiesItems.map((title, idx) => (
-                            <a
-                              key={idx}
-                              href={`/success-stories#${title.toLowerCase().replace(/\s+/g, '-')}`}
-                              className="block px-6 py-3 text-gray-800 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 font-medium border-l-2 border-transparent hover:border-l-purple-400"
-                            >
-                              {title}
-                            </a>
-                          ))
+                          storiesItems.map((title, idx) => {
+                            const storyId = title.toLowerCase().replace(/\s+/g, '-');
+                            const isActive = typeof window !== 'undefined' && window.location.search.includes(`story=${storyId}`);
+                            return (
+                              <a
+                                key={idx}
+                                href={`/success-stories?story=${storyId}`}
+                                className={`block px-7 py-3 text-white/90 transition-all duration-200 font-medium border-l-2 border-transparent rounded-xl
+                                  hover:bg-gradient-to-r hover:from-lime-400/10 hover:to-purple-400/10 hover:text-lime-300 hover:border-l-lime-400 hover:scale-[1.03]
+                                  ${isActive ? 'bg-lime-400/10 text-lime-300 border-l-lime-400' : ''}`}
+                                style={{ transition: 'transform 0.18s cubic-bezier(.4,2,.6,1)' }}
+                              >
+                                {title}
+                              </a>
+                            );
+                          })
                         ) : null}
                       </div>
                     </div>
@@ -198,8 +222,8 @@ const Header = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 via-purple-400/20 to-blue-400/20" />
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-lime-400/50 to-transparent" />
             <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent" />
-          </div>
-          
+        </div>
+
           <nav className="px-6 py-8 space-y-3 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
             {navItems.map((item, index) => (
               <div key={index}>
@@ -238,19 +262,22 @@ const Header = () => {
                             </a>
                           ))
                         ) : item.dropdownKey === "stories" ? (
-                          storiesItems.map((title, idx) => (
-                            <a
-                              key={idx}
-                              href={`/success-stories#${title.toLowerCase().replace(/\s+/g, '-')}`}
-                              className="block py-3 px-4 text-white/80 hover:text-lime-300 transition-all duration-300 rounded-lg hover:bg-white/10 hover:scale-105"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 bg-purple-400 rounded-full" />
-                                <span className="font-medium">{title}</span>
-                              </div>
-                            </a>
-                          ))
+                          storiesItems.map((title, idx) => {
+                            const storyId = title.toLowerCase().replace(/\s+/g, '-');
+                            return (
+                              <a
+                                key={idx}
+                                href={`/success-stories?story=${storyId}`}
+                                className="block py-3 px-4 text-white/90 hover:text-lime-300 transition-all duration-300 rounded-lg hover:bg-white/10 hover:scale-105 hover:shadow-lg hover:shadow-purple-400/20"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+                                  <span className="font-medium">{title}</span>
+                                </div>
+                              </a>
+                            );
+                          })
                         ) : null}
                       </div>
                     )}
@@ -275,7 +302,7 @@ const Header = () => {
                 )}
               </div>
             ))}
-          </nav>
+        </nav>
           
           {/* Bottom Decoration */}
           <div className="px-6 pb-6">
@@ -331,6 +358,12 @@ const Header = () => {
         .scrollbar-thin::-webkit-scrollbar-thumb:hover {
           background: rgba(255, 255, 255, 0.3);
         }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.25s cubic-bezier(.4,2,.6,1); }
       `}</style>
     </header>
   );
