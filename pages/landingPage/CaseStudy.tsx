@@ -11,9 +11,8 @@ export interface CardItem {
 }
 
 export interface CaseStudyProps {
-    topCards: CardItem[]; // interactive cards shown above
-    bottomWorks: CardItem[]; // previous works carousel on the right
-    /** Optional props to pass into TitleH1 on the left of bottom section */
+    topCards: CardItem[];
+    bottomWorks: CardItem[];
     titleProps?: TitleH1Props;
     className?: string;
 }
@@ -60,43 +59,50 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
     }, []);
 
     // Memoize the card components to prevent unnecessary re-renders
-    const topCardElements = useMemo(() => 
+    const topCardElements = useMemo(() =>
         (topCards || []).map((c) => (
             <article
                 key={c.id}
-                className="group relative w-72 md:w-80 lg:w-96 flex-shrink-0 rounded-2xl overflow-hidden bg-white  hover:shadow-2xl transition-all duration-500 ease-out"
+                className="group relative w-72 md:w-[400px] flex-shrink-0 rounded-xl overflow-hidden bg-black/90 ring-1 ring-black/10 hover:ring-white/10 hover:-translate-y-1 hover:shadow-2xl transition-all duration-500 ease-out"
             >
                 {/* Image area */}
-                <div className="w-full h-56 md:h-64 lg:h-72 relative overflow-hidden">
+                <div className="w-full h-56 md:h-64 lg:h-96 relative rounded-sm overflow-hidden">
                     <img
                         src={c.image}
                         alt={c.alt ?? c.title ?? "project"}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
+                        className="w-full h-full object-cover brightness-75 transition-all duration-700 ease-out group-hover:scale-110"
                         style={{ contentVisibility: "auto" }}
                     />
 
-                    {/* Hover overlay with improved design */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                        <div className="absolute inset-0 flex items-end p-6">
-                            <div className="w-full space-y-3">
-                                <h4 className="text-white font-bold text-xl md:text-2xl leading-tight">{c.title}</h4>
-                                {c.excerpt && (
-                                    <p className="text-white/90 text-sm md:text-base leading-relaxed line-clamp-3">
-                                        {c.excerpt}
-                                    </p>
-                                )}
+                    <div className="absolute inset-0">
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/10 transition-colors duration-500 ease-out group-hover:from-blue-950 group-hover:via-black-900/60 group-hover:to-black-600/30" />
+
+                        <div className="absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-300 ease-out group-hover:opacity-0">
+                            {c.excerpt && (
+                                <p className=" text-center font-semibold text-white/90 text-sm md:text-lg leading-relaxed">
+                                    {c.excerpt}
+                                </p>
+                            )}
+                            <h4 className="text-white text-center font-extrabold text-2xl md:text-3xl leading-tight">
+                                {c.title}
+                            </h4>
+                        </div>
+
+                        {/* Hover state: title centered + CTA */}
+                        <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 transition-opacity duration-300 ease-out text-center group-hover:opacity-100">
+                            <div className="space-y-5">
+                                <h4 className="text-white font-extrabold text-2xl md:text-3xl leading-tight transition-transform duration-300 ease-out group-hover:scale-[1.03]">
+                                    {c.title}
+                                </h4>
                                 {c.href && (
                                     <a
                                         href={c.href}
-                                        className="inline-flex items-center mt-4 px-4 py-2 bg-white/20 backdrop-blur-sm text-white font-semibold text-sm rounded-full hover:bg-white hover:text-black transition-all duration-300 border border-white/30 hover:border-white"
+                                        className="inline-flex items-center px-6 py-2 rounded-full border border-white/80 text-white font-semibold tracking-wide shadow-sm opacity-0 translate-y-3 scale-95 pointer-events-none transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto hover:bg-white hover:text-black"
                                         aria-label={`Read more about ${c.title}`}
                                     >
-                                        Read more 
-                                        <svg className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                        </svg>
+                                        READ MORE
                                     </a>
                                 )}
                             </div>
@@ -106,11 +112,11 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
             </article>
         )), [topCards]);
 
-    const bottomWorkElements = useMemo(() => 
+    const bottomWorkElements = useMemo(() =>
         (bottomWorks || []).map((w) => (
             <div
                 key={w.id}
-                className="group w-72 md:w-[450px] flex-shrink-0 rounded-2xl overflow-hidden  hover:shadow-2xl bg-white transition-all duration-500 ease-out"
+                className="group w-72 md:w-[450px] flex-shrink-0 rounded-2xl overflow-hidden bg-black/90 ring-1 ring-black/10 hover:ring-white/10 transition-all duration-500 ease-out"
             >
                 <div className="w-full h-48 md:h-54 relative overflow-hidden">
                     <img
@@ -118,15 +124,15 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
                         alt={w.alt ?? w.title ?? "work"}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
+                        className="w-full h-full object-cover brightness-75 transition-all duration-700 ease-out group-hover:scale-110"
                         style={{ contentVisibility: "auto" }}
                     />
 
                     {/* Improved hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent opacity-100 transition-all duration-500 ease-out">
                         <div className="absolute inset-0 flex items-end p-4">
                             <div className="w-full">
-                                <h4 className="text-white font-bold text-lg md:text-xl leading-tight">{w.title}</h4>
+                                <h4 className="text-white font-bold text-lg md:text-xl leading-tight transition-transform duration-300 ease-out group-hover:-translate-y-0.5">{w.title}</h4>
                             </div>
                         </div>
                     </div>
