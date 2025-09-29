@@ -63,7 +63,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
         (topCards || []).map((c) => (
             <article
                 key={c.id}
-                className="group relative w-72 md:w-[400px] flex-shrink-0 rounded-xl overflow-hidden bg-black/90 ring-1 ring-black/10 hover:ring-white/10 hover:-translate-y-1 hover:shadow-2xl transition-all duration-500 ease-out"
+                className="group relative w-72 md:w-[400px] flex-shrink-0 rounded-xl overflow-hidden bg-black/90 ring-1 ring-black/10 hover:ring-white/10 hover:-translate-y-1  transition-all duration-500 ease-out"
             >
                 {/* Image area */}
                 <div className="w-full h-56 md:h-64 lg:h-96 relative rounded-sm overflow-hidden">
@@ -77,7 +77,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
                     />
 
                     <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/10 transition-colors duration-500 ease-out group-hover:from-blue-950 group-hover:via-black-900/60 group-hover:to-black-600/30" />
+                        <div className="absolute font-serif inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/10 transition-colors duration-500 ease-out group-hover:from-blue-800 group-hover:via-black-900/60 group-hover:to-black-600/30" />
 
                         <div className="absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-300 ease-out group-hover:opacity-0">
                             {c.excerpt && (
@@ -91,21 +91,23 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
                         </div>
 
                         {/* Hover state: title centered + CTA */}
-                        <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 transition-opacity duration-300 ease-out text-center group-hover:opacity-100">
-                            <div className="space-y-5">
-                                <h4 className="text-white font-extrabold text-2xl md:text-3xl leading-tight transition-transform duration-300 ease-out group-hover:scale-[1.03]">
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-300 ease-out text-center group-hover:opacity-100">
+                            <div className="flex-1 flex items-center justify-center">
+                                <h4 className="text-white font-extrabold text-2xl md:text-3xl leading-tight text-center opacity-0 translate-y-4 scale-95 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100">
                                     {c.title}
                                 </h4>
-                                {c.href && (
+                            </div>
+                            {c.href && (
+                                <div className="flex justify-center">
                                     <a
                                         href={c.href}
-                                        className="inline-flex items-center px-6 py-2 rounded-full border border-white/80 text-white font-semibold tracking-wide shadow-sm opacity-0 translate-y-3 scale-95 pointer-events-none transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto hover:bg-white hover:text-black"
+                                        className="w-40 inline-flex items-center justify-center px-6 py-2 rounded-full border border-white/80 text-white font-semibold tracking-wide shadow-sm opacity-0 translate-y-6 scale-90 pointer-events-none transition-all duration-700 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto hover:bg-white hover:text-black delay-200"
                                         aria-label={`Read more about ${c.title}`}
                                     >
                                         READ MORE
                                     </a>
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -156,7 +158,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
             </div>
 
             {/* Bottom: two-column section */}
-            <div className="w-full mx-auto px-4 md:px-6 lg:px-20 py-8 md:py-12">
+            <div className="w-full mx-auto  py-8 md:py-12">
                 <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
                     {/* Left: TitleH1 (50%) */}
                     <div className="w-full lg:w-[50%]">
@@ -165,16 +167,20 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({
                         </div>
                     </div>
 
-                    {/* Right: previous works larger cards (50%) */}
+                    {/* Right: single showcase image (50%) */}
                     <div className="w-full lg:w-[50%]">
-                        <div className="relative">
-                            <div
-                                ref={rightRef}
-                                className="overflow-x-auto scroll-smooth flex gap-4 md:gap-6 py-4 px-2 items-stretch [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-                                style={{ WebkitOverflowScrolling: "touch", willChange: "scroll-position" }}
-                            >
-                                {bottomWorkElements}
-                            </div>
+                        <div className="relative rounded-2xl overflow-hidden shadow-2xl m-5 ring-1 ring-black/5">
+                            <img
+                                src="/landing/pbp.jpg"
+                                alt="Showcase"
+                                loading="lazy"
+                                decoding="async"
+                                className="w-full h-[360px] md:h-[460px] lg:h-[450px]  object-cover"
+                                style={{ contentVisibility: "auto" }}
+                            />
+                            {/* subtle gradient and border glow */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                            <div className="pointer-events-none absolute inset-0 ring-1 ring-white/10 rounded-2xl" />
                         </div>
                     </div>
                 </div>

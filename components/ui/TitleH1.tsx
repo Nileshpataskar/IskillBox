@@ -24,6 +24,8 @@ export interface TitleH1Props {
     linkClassName?: string;
     /** Custom styling for the accent line */
     accentLineClassName?: string;
+    /** Disable the component's default vertical padding */
+    disableDefaultPadding?: boolean;
 }
 
 /**
@@ -56,22 +58,23 @@ const TitleH1: React.FC<TitleH1Props> = ({
     descriptionClassName = "",
     linkClassName = "",
     accentLineClassName = "",
+    disableDefaultPadding = false,
 }) => {
     const hasDescription = Boolean(description);
     const accentHeight = typeof lineHeight === "number" ? lineHeight : 80; // default 80px (h-20)
 
     return (
         <section
-            className={`w-fit py-12 md:py-12 ${className}`}
+            className={`w-fit ${disableDefaultPadding ? '' : 'py-8 md:py-12'} ${className}`}
             aria-labelledby="powered-by-purpose-heading"
         >
             <div
-                className={`max-w-4xl mx-auto flex ${hasDescription ? "items-start" : "items-center"} gap-6`}
+                className={`max-w-3xl md:max-w-4xl mx-auto flex ${hasDescription ? "items-start" : "items-center"} gap-5 md:gap-6`}
             >
                 {/* Vertical accent line */}
                 <div className={hasDescription ? "mt-2" : ""}>
                     <div
-                        className={`w-1 md:w-1 bg-lime-400 rounded ${accentLineClassName}`}
+                        className={`w-1 bg-gradient-to-b from-lime-400 to-emerald-500 rounded ${accentLineClassName}`}
                         style={{ height: accentHeight }}
                         aria-hidden
                     />
@@ -81,20 +84,20 @@ const TitleH1: React.FC<TitleH1Props> = ({
                 <div className="flex flex-col">
                     <h2
                         id="powered-by-purpose-heading"
-                        className={`text-2xl md:text-3xl font-bold text-[#6D3A95] leading-tight ${titleClassName}`}
+                        className={`text-2xl md:text-[34px] font-extrabold tracking-tight text-[#1F2A44] leading-tight ${titleClassName}`}
                     >
                         {title}
                     </h2>
 
                     {description && (
-                        <p className={`mt-3 text-base md:text-lg text-gray-600 max-w-2xl ${descriptionClassName}`}>
+                        <p className={`mt-3 text-[15px] md:text-lg text-gray-600/90 max-w-2xl ${descriptionClassName}`}>
                             {description}{' '}
                             {link && (
                                 <a
                                     href={link.href}
                                     target={link.newTab ? '_blank' : undefined}
                                     rel={link.newTab ? 'noopener noreferrer' : undefined}
-                                    className={`font-semibold underline underline-offset-2 ${linkClassName}`}
+                                    className={`font-semibold underline underline-offset-2 text-[#1F2A44] hover:text-black ${linkClassName}`}
                                 >
                                     {link.text}
                                 </a>

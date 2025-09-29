@@ -1,58 +1,122 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TitleH1 from '@/components/ui/TitleH1';
 
-const testimonials = [
+type Testimonial = {
+  id: number;
+  name: string;
+  role: string;
+  company: string;
+  body: string;
+};
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 0) return '';
+  const first = parts[0]?.[0] ?? '';
+  const second = parts.length > 1 ? parts[1]?.[0] ?? '' : (parts.length > 2 ? parts[parts.length - 1]?.[0] ?? '' : '');
+  return (first + second).toUpperCase();
+}
+
+const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: 'Ms. Rooghee Khan',
+    name: 'Ms. Roohee Khan',
     role: 'Lead Learning & Organizational Development',
-    company: 'Fortune 500 Company',
-    body: 'Working with Innoserv was a real pleasure. It is always wonderful when a provider listens to our needs, develops the training module around those needs and fine tunes the training to ensure that it is fit for purpose. The trainer was extremely professional, knowledgeable and kept the participants engaged at all times.',
-    image: '/landing/testimonial.jpg',
-    rating: 5
+    company: 'ACG Worldwide',
+    body:
+      'Working with Innoserv was a real pleasure. It is always wonderful when a provider listens to our needs, develops the training module around those needs and fine tunes the training to ensure that it is fit for purpose. The trainer was extremely professional, knowledgeable and kept the participants engaged at all times. The participants enjoyed the training and have given outstanding feedback for the training programme.',
   },
   {
     id: 2,
-    name: 'John Doe',
-    role: 'Head of HR',
-    company: 'Tech Innovation Corp',
-    body: 'The experience was fantastic. The training approach was spot-on, highly engaging, and tailored to our unique challenges. We saw immediate improvement in team collaboration and leadership skills.',
-    image: '/landing/testimonial.jpg',
-    rating: 5
+    name: 'Mr. Manoj Saxena & Mr. Deepak Maheshwari',
+    role: 'GM Business Excellence & HR Team Lead',
+    company: 'Progressive Infotech Pvt Ltd',
+    body:
+      'Thanks for all support during COVID Period, our overall experience dealing with InnoServ is quite good due to your prompt response and understanding our exact expectations and help us identify the right Trainer. We look forward to your support going forward.',
   },
   {
     id: 3,
-    name: 'Jane Smith',
-    role: 'Chief Operations Officer',
-    company: 'Global Solutions Ltd',
-    body: 'Exceptional delivery and relevant content! The trainers demonstrated deep expertise and practical insight that directly addressed our operational needs.',
-    image: '/landing/testimonial.jpg',
-    rating: 5
-  }
+    name: 'Girish Nair',
+    role: 'Associate | People Service',
+    company: 'Opteamix',
+    body:
+      'We really appreciate your service and quick responses from the beginning for all the training request. We have always received great feedbacks from the participants, and the team leads coordinated with the training. As usual you have shared the best trainer for our training request. Once again thanks for all the services you have offered and sure we will reach out to InnoServ when we have any future training requests.',
+  },
+  {
+    id: 4,
+    name: 'Ms. Prerna Khanolkar',
+    role: 'Sr. Associate L&D',
+    company: 'Cactus Communications',
+    body:
+      "We’ve been partnering with InnoServ for more than 6+ months and they’ve proven to be a reliable L&D partner for all our technical requirements. They are our first point of contact for any MS Excel or MS Suite trainings. The depth of knowledge and delivery of their trainers is high quality and are always received well by our participants. InnoServ’s team is very proactive and passionate in what they do, they have always done a good job with our requirements and have ensured that our participants are left with a great learning experience after every program.",
+  },
+  {
+    id: 5,
+    name: 'Ms. Vidya Mhetre',
+    role: 'HR Executive',
+    company: 'M Tech Innovations Pvt Ltd',
+    body:
+      'It was a very wonderful session through InnoServ. Trainer had leadership traits and taught us about life goals, how to be motivated in work and be assertive. Thank you for your time given to our employees. They were very happy with training which they had gone through.',
+  },
+  {
+    id: 6,
+    name: 'Ms. Sangeetha Paneerselvam',
+    role: 'Office Manager',
+    company: 'Calypso Technology',
+    body:
+      'We wanted to say thanks for providing a good trainer for Self Defence session and all participants enjoyed the session and trainer did a very good job. And, thanks for arranging a wonderful session on Desk Based Yoga and Meditation program. We have got tremendous response from employees. Looking forward to have more such sessions from Innoserv.',
+  },
+  {
+    id: 7,
+    name: 'Anil Agarwal',
+    role: 'L & D Manager',
+    company: 'Stridely Solutions',
+    body:
+      'It was a pleasure working with you for this training assignment, and we extend our gratitude for your unwavering support. Your assistance in facilitating the trainer change based on feedback was especially valuable. We genuinely appreciate your dedication and coordination.',
+  },
 ];
 
+const CARD_WIDTH_PX = 360; // base card width used for scroll calculations
+const SCROLL_SPEED_CARD_FACTOR = 0.3; // 70% of a card per second
+const SCROLL_SPEED_PX_PER_SEC = CARD_WIDTH_PX * SCROLL_SPEED_CARD_FACTOR;
+
 const TestimonialCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  // Duplicate list for seamless loop
+  const loopItems = useMemo(() => [...testimonials, ...testimonials], []);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, []);
+    let rafId: number;
+    const el = containerRef.current;
+    if (!el) return;
 
-  const current = testimonials[currentIndex];
+    let lastTs: number | null = null;
+    const halfWidth = () => el.scrollWidth / 2;
+
+    const step = (ts: number) => {
+      if (lastTs === null) lastTs = ts;
+      const deltaMs = ts - lastTs;
+      lastTs = ts;
+
+      if (!isHovering) {
+        const deltaPx = (deltaMs / 1000) * SCROLL_SPEED_PX_PER_SEC;
+        el.scrollLeft += deltaPx;
+        const half = halfWidth();
+        if (el.scrollLeft >= half) {
+          el.scrollLeft -= half; // seamless wrap
+        }
+      }
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, [isHovering]);
 
   return (
     <section className="relative max-w-full mx-auto bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 px-4 sm:px-6 md:px-12 lg:px-20 py-16 md:py-20 lg:py-24">
-      {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-indigo-200/30 to-blue-200/30 rounded-full blur-3xl" />
@@ -60,109 +124,52 @@ const TestimonialCarousel = () => {
 
       <div className="relative z-10">
         <TitleH1
-          title="Outcomes in Their Own Words"
+          title="What our Clients say!"
           description="Real stories from real people. Discover how our solutions have transformed organizations and empowered teams to achieve remarkable results."
-          titleClassName="text-center"
-          descriptionClassName="text-center max-w-3xl mx-auto"
+          titleClassName="text-left"
+          descriptionClassName="text-left max-w-3xl"
+          disableDefaultPadding
         />
-        
-        <div className="mt-12 md:mt-16">
-          <div className="relative max-w-6xl mx-auto">
-            {/* Main testimonial card */}
-            <div className="relative overflow-hidden shadow-2xl rounded-3xl bg-white border border-gray-100">
-              {/* Background image with overlay */}
-              <div className="relative h-96 md:h-[500px] lg:h-[600px]">
-                <img
-                  src={current.image}
-                  alt="testimonial background"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                
-                {/* Quote icon */}
-                <div className="absolute top-6 right-6 md:top-8 md:right-8">
-                  <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-                    <Quote className="w-6 h-6 md:w-8 md:h-8 text-white" />
-                  </div>
-                </div>
 
-                {/* Content overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 lg:p-12 text-white">
-                  {/* Rating stars */}
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(current.rating)].map((_, i) => (
-                      <svg key={i} className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
+          <div
+            ref={containerRef}
+            className="relative overflow-hidden "
+          >
+              {/* track */}
+              <div className="flex gap-6 p-6 md:p-10" style={{ width: 'max-content' }}>
+              {loopItems.map((t, idx) => (
+                <article
+                  key={`${t.id}-${idx}`}
+                  className="flex-none w-[260px] sm:w-[300px] md:w-[340px]"
+                  style={{ minWidth: CARD_WIDTH_PX }}
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                >
+                    <div className="relative h-full rounded-2xl bg-white/90 backdrop-blur-md ring-1 ring-gray-200/70 shadow-lg px-7 py-7 md:px-9 md:py-9 hover:shadow-2xl hover:-translate-y-1 hover:cursor-pointer transition-all duration-300">
 
-                  {/* Testimonial text */}
-                  <blockquote className="text-lg md:text-xl lg:text-2xl font-medium leading-relaxed mb-6 md:mb-8 max-w-4xl">
-                    "{current.body}"
-                  </blockquote>
-
-                  {/* Author info */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl">
-                      {current.name.split(' ').map(n => n[0]).join('')}
+                    {/* avatar / initials */}
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white flex items-center justify-center font-semibold">
+                        {getInitials(t.name)}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-gray-900 truncate">{t.name}</p>
+                        <p className="text-xs text-gray-600 truncate">{t.role}</p>
+                        <p className="text-xs text-gray-500 truncate">{t.company}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-lg md:text-xl font-bold text-white">{current.name}</h4>
-                      <p className="text-blue-200 text-sm md:text-base">{current.role}</p>
-                      <p className="text-blue-100 text-sm">{current.company}</p>
-                    </div>
+
+                      <blockquote className="text-sm md:text-[15px] leading-relaxed text-gray-700">
+                      “{t.body}”
+                    </blockquote>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation controls */}
-            <div className="flex justify-center items-center gap-6 mt-8 md:mt-12">
-              <button
-                onClick={prevSlide}
-                className="group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:scale-110"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform duration-200" />
-              </button>
-              
-              {/* Enhanced dots indicator */}
-              <div className="flex gap-3">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
-                      index === currentIndex 
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-125 shadow-lg' 
-                        : 'bg-gray-300 hover:bg-gray-400 hover:scale-110'
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
-              
-              <button
-                onClick={nextSlide}
-                className="group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:scale-110"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform duration-200" />
-              </button>
-            </div>
-
-            {/* Progress bar */}
-            <div className="mt-6 md:mt-8">
-              <div className="w-full bg-gray-200 rounded-full h-1 md:h-2">
-                <div 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 h-1 md:h-2 rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${((currentIndex + 1) / testimonials.length) * 100}%` }}
-                />
-              </div>
+                </article>
+              ))}
             </div>
           </div>
-        </div>
+
+          {/* helper hint */}
+          <p className="mt-4 text-center text-sm text-gray-500">Hover to pause • Scroll to explore</p>
       </div>
     </section>
   );

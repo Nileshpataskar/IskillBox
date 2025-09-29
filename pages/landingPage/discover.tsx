@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react'
+import TitleH1 from '@/components/ui/TitleH1';
 
 const Discover = () => {
     const images = [
@@ -12,19 +13,11 @@ const Discover = () => {
         <div className='h-[65vh] md:min-h-screen bg-blue-50 flex flex-col items-start gap-6 sm:gap-8 md:gap-10 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 py-8 sm:py-12 md:py-16 md:flex-row md:items-center'>
 
             <div className="w-full md:w-1/2">
-                <div className="flex gap-3 sm:gap-4">
-                    <span className="mt-1 h-20 sm:h-32 md:h-40 w-0.5 sm:w-1 rounded-full bg-lime-400" aria-hidden="true" />
-                    <div>
-                        <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#161c2d] leading-tight">
-                            <span className="text-[#6d3a95]">Discover.</span>{' '}
-                            <span className="text-[#6d3a95]">Design.</span>{' '}
-                            <span className="text-[#6d3a95]">Deliver.</span>
-                        </h3>
-                        <p className="mt-3 sm:mt-4 max-w-md text-base sm:text-lg md:text-xl leading-relaxed text-[#161c2d]/80">
-                            We blend strategy with creativity to craft learning journeys that engage minds and elevate performance.
-                        </p>
-                    </div>
-                </div>
+                <TitleH1
+                    title="Discover. Design. Deliver."
+                    description="We blend strategy with creativity to craft learning journeys that engage minds and elevate performance."
+                    titleClassName="text-[#1F2A44]"
+                />
             </div>
             
             <div className="grid w-full gap-3 sm:gap-4 md:gap-5 md:w-1/2 grid-cols-2">
