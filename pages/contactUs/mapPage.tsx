@@ -29,8 +29,8 @@ const MapPage = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-900 mb-1">Phone</h3>
-                  <p className="text-gray-700">+91 123 456 7890</p>
-                  <p className="text-gray-500 text-sm">Available Mon-Fri, 9 AM - 6 PM</p>
+                  <p className="text-gray-700">+91 9028005801</p>
+                  <p className="text-gray-500 text-sm">Available Mon-Fri, 10 AM - 7 PM</p>
                 </div>
               </div>
 
@@ -43,7 +43,7 @@ const MapPage = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-900 mb-1">Email</h3>
-                  <p className="text-gray-700">info@iskillbox.com</p>
+                  <p className="text-gray-700">training@iskillbox.com </p>
                   <p className="text-gray-500 text-sm">We'll respond within 24 hours</p>
                 </div>
               </div>
